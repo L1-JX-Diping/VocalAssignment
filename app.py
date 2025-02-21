@@ -63,9 +63,14 @@ def register_song():
 
     return jsonify({"message": "新しい曲が登録されました"})
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
-
 if __name__ == "__main__":
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=5000)
+    ### if using Render.com to deploy this web app ###
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+    
+    ### all devices which is using same internet (same Wi-Fi) can access this web app ###
+    # from waitress import serve
+    # serve(app, host="0.0.0.0", port=5000)
+
+    ### only for debug: only the device running python can access this web app ###
+    # app.run(debug=True)
