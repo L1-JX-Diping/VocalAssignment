@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歌詞分担アプリ</title>
+</head>
+<body>
+    <h1>歌詞分担アプリ</h1>
+    <form method="POST">
+        <label>プレイヤー数:</label>
+        <input type="number" name="playerCount" value="{{ playerCount }}" required>
+        <br>
+        <label>連続制限数:</label>
+        <input type="number" name="consecutiveLimit" value="{{ consecutiveLimit }}" required>
+        <br>
+        <label>曲のタイトル:</label>
+        <input type="text" name="songTitle" value="{{ songTitle }}" required>
+        <br>
+        <button type="submit" name="action" value="play">Play</button>
+    </form>
+
+    <!-- 歌詞入力フィールド（デフォルト非表示） -->
+    <div id="lyricsInputSection" style="display: none;">
+        <p>歌が見つかりません。歌詞を入力して歌を追加しよう！</p>
+        <textarea name="lyrics" form="lyricsForm"></textarea>
+        <br>
+        <form id="lyricsForm" method="POST">
+            <button type="submit">登録</button>
+        </form>
+    </div>
+    
+    {% if showLyricsInput %}
+    <p>歌が見つかりません。歌詞を入力して歌を追加しよう！</p>
+    <label>歌詞（新しい曲の場合）:</label>
+    <textarea name="lyrics"></textarea>
+    <br>
+    {% endif %}
+    
+    <!-- 「歌の新規登録」ボタン -->
+    <button type="button" onclick="showSongRegistration()">歌の新規登録</button>
+
+    <!-- 新規登録用のフォーム（デフォルトでは非表示） -->
+    <div id="songRegistration" style="display: none;">
+        <label>新しい曲のタイトル:</label>
+        <input type="text" id="newSongTitle">
+        <br>
+        <label>歌詞:</label>
+        <textarea id="newLyrics"></textarea>
+        <br>
+        <button type="button" onclick="registerSong()">完了</button>
+    </div>
+
+    {% if lyrics %}
+        <h2>色付き歌詞</h2>
+        <p style="white-space: pre-wrap;">{{ lyrics|safe }}</p>
+    {% endif %}
+
+    <script>
+        function showSongRegistration() {
+            document.getElementById("songRegistration").style.display = "block";
+        }
+
+        function registerSong() {
+            let songTitle = document.getElementById("newSongTitle").value;
+            let lyrics = document.getElementById("newLyrics").value;
+
+            fetch("/register_song", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ songTitle: songTitle, lyrics: lyrics })
+            }).then(response => response.json()).then(data => {
+                alert(data.message);
+                document.getElementById("songRegistration").style.display = "none";
+            });
+        }
+    </script>
+</body>
+</html>
