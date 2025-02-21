@@ -37,7 +37,7 @@ class Common:
             with open(file_path, "r", encoding="utf-8") as file:
                 lyrics = file.read()
             
-            divided_lyrics = Common.get_divided_lyrics_list(lyrics, 4, 8)
+            divided_lyrics = Common.get_divided_lyrics_list(lyrics, 2, 6)
             part_list = Common.role_assignment(divided_lyrics, player_count, consecutive_limit)
             # print(f"lyrics:\n{lyrics}\ndivided_lyrics:\n{divided_lyrics}\n")
 
