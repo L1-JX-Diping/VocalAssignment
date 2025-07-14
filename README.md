@@ -1,7 +1,7 @@
 # VocalAssignment
 An web app for vocal assignment which means Dividing a song into each singing parts: Assigning lines or sections of a song to different vocalists
 
-Link for use: https://vocalassignment.onrender.com/
+Link for play: https://vocalassignment.onrender.com/
 
 内容：Song Puzzleの歌詞分け機能を抽出したWebサービス
 
